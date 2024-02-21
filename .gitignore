@@ -1,24 +1,117 @@
-# Compiled class file
-*.class
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
-# Log file
-*.log
+public class Main
+{
 
-# BlueJ files
-*.ctxt
+  public static void main(String[] args) {
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+      String scelta = " ";
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+      Scanner scanner = new Scanner(System.in);
+      List<String> nomiLista = new ArrayList<String>();
+      List<String> cognomiLista = new ArrayList<String>();
+      List<String> professioniLista = new ArrayList<String>();
+      List<Integer> idLista = new ArrayList<Integer>();
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+      int id = 0;
+
+      while (!scelta.equals("Q")) {
+          /* RICHIESTA SCELTA ALL'UTENTE */
+          stampaMenu();
+          scelta = scanner.nextLine().toUpperCase();    // è una stringa
+
+          if (scelta.equals("A")) {   // SOLUZIONE SONIA: scelta.equalsIgnoreCase("A")
+              id = aggiungiCliente(nomiLista, cognomiLista, professioniLista, idLista, id);
+
+          } else if(scelta.equals("R")) {
+              rimuoviCliente(nomiLista, cognomiLista, professioniLista, idLista);
+
+          } else if(scelta.equals("S")) {
+              // stampa di tutti i clienti
+              stampaDB(nomiLista, cognomiLista, professioniLista, idLista);
+
+          } else if(scelta.equals("Q")) {
+              // uscita dal programma
+              System.out.println("Uscita dal sistema avvenuta con successo!");
+
+          } else {
+              System.out.println("ERRORE. Scelta NON valida");
+          }
+      }
+  }
+
+  /* METHOD FOR PRINTING A MENU */
+  public static void stampaMenu() {
+      System.out.println("### BENVENUTO IN QUESTO SISTEMA DI GESTIONE ###");
+      System.out.println("    (A) per aggiungere un cliente");
+      System.out.println("    (R) per rimuovere un cliente");
+      System.out.println("    (S) per stampare tutta la base di dati");
+      System.out.println("    (Q) per uscire");
+      System.out.print("Quale operazione tra le precedenti vuoi eseguire? ");
+  }
+
+  /* METHOD FOR ADDING A CUSTOMER INTO THE LISTS */
+  public static int aggiungiCliente(List<String> nomiLista, 
+      List<String> cognomiLista, List<String> professioniLista,
+      List<Integer> idLista, int id) {
+      Scanner scanner = new Scanner(System.in);
+      // richiesta dati all'utente
+        System.out.print("Inserire il NOME del cliente: ");
+        String nome = scanner.nextLine();
+        System.out.print("Inserire il COGNOME del cliente: ");
+        String cognome = scanner.nextLine();
+        System.out.print("Inserire la PROFESSIONE del cliente: ");
+        String professione = scanner.nextLine();
+        // memorizzazione nelle rispettive liste
+        nomiLista.add(nome);
+        cognomiLista.add(cognome);
+        professioniLista.add(professione);
+        idLista.add(id);
+        id++;
+
+        return id;
+  }
+
+  /* METHOD FOR PRINTING THE WHOLE DB */
+  public static void stampaDB(List<String> nomiLista, 
+      List<String> cognomiLista, List<String> professioniLista,
+      List<Integer> idLista) {
+        for(int indice = 0; indice < nomiLista.size(); indice++)
+            System.out.printf("%05d | %-20s %-20s %-20s\n", idLista.get(indice), nomiLista.get(indice),
+                cognomiLista.get(indice), professioniLista.get(indice));
+      }
+
+  /* METHOD FOR REMOVING A CUSTOMER GIVEN THE ID */
+  public static void rimuoviCliente(List<String> nomiLista, 
+      List<String> cognomiLista, List<String> professioniLista,
+      List<Integer> idLista) {
+      Scanner scanner = new Scanner(System.in);
+      // rimozione del cliente
+        System.out.print("Inserire l'id del cliente che vuoi rimuovere: ");
+        int idDaRimuovere = scanner.nextInt();
+        String garbage = scanner.nextLine();    // pulire lo scanner
+
+        int posizioneClienteDaRimuovere = 0;
+        boolean clienteTrovato = false;
+        // ricerca del cliente da rimuovere
+        for(int indice = 0; indice < idLista.size() && !clienteTrovato; indice++)
+            if (idLista.get(indice) == idDaRimuovere) {
+                posizioneClienteDaRimuovere = indice;
+                clienteTrovato = true;
+            }
+
+        // rimozione cliente in quella posizione    
+        if (clienteTrovato) {
+          nomiLista.remove(posizioneClienteDaRimuovere);
+          cognomiLista.remove(posizioneClienteDaRimuovere);
+          professioniLista.remove(posizioneClienteDaRimuovere);
+          idLista.remove(posizioneClienteDaRimuovere);
+          System.out.println("Rimozione eseguita con SUCCESSO");
+      } else 
+          System.out.println("ID NON ESISTENTE");
+  }
+
+
+}
