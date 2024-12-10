@@ -22,7 +22,7 @@ public class Main
           stampaMenu();
           scelta = scanner.nextLine().toUpperCase();    // è una stringa
 
-          if (scelta.equals("A")) {   // SOLUZIONE SONIA: scelta.equalsIgnoreCase("A")
+          if (scelta.equals("A")) {   // SOLUZIONE : scelta.equalsIgnoreCase("A")
               id = aggiungiCliente(nomiLista, cognomiLista, professioniLista, idLista, id);
 
           } else if(scelta.equals("R")) {
